@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block title %}<title>Home</title>{% endblock %}
+
+{% block links %}{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+<div class="raiting-list">
+	<div class="tbl-buttons">
+		<p>Поиск</p>
+	<a href="{{ url_for('save_file') }}">Создать новый рейтинг</a>
+	</div>
+	<div class="big-table">
+	{% for i in range(0,n) %}
+	<div class="elem" id="{{ i }}">
+		<div class="item">
+			<h3>{{ names[i] }}</h3>
+			<p>{{ formulas[i] }}</p>
+			<div>
+				<p>Дата: {{time[i]}}</p>
+				<p>Автор: {{authors[i]}}</p>
+			</div>
+		</div>
+		<div class="buttons">
+			<button class="change" id="{{ ids[i] }}" onclick="change(this)">Изменить</button>
+			<button class="build" id="{{ ids[i] }}" onclick="build(this)">Построить рейтинг</button>
+		</div>
+	</div>
+	</div>
+	{% endfor %}
+</div>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}

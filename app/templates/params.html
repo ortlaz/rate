@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+
+{% block links %}{% endblock %}
+
+{% block title %}<title>Ratings</title>{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.css">
+
+<script src="http://dir.by/example_lib/touch-punch/jquery.ui.touch-punch.js"></script>
+
+<style>
+    /* цвет используется когда нажали левую клавишу мыши и держим в нажатом положении */
+    .items-list .ui-selecting { background:#FECA40; }
+         
+    /* цвет используется когда отпустили левую клавишу мыши (цвет выделенного элемента) */
+    .items-list .ui-selected { background:#F39814; color:white; }
+
+    /* расположение элементов */
+    .items-list { list-style-type:none; margin:0; padding:0; width:60%; }
+    .items-list li { margin:3px; padding:0.4em; font-size:1.4em; height:18px; }
+</style>
+
+<div  class="edit-container">
+	<div class="param-list">
+		<div class="search">
+			Поиск
+		</div>
+		<div class="error-container">
+		</div>
+		<div class="param-choose">
+			<ul class="items-list">
+			{% for par in table %}
+				<li class="ui-widget-content">
+					{{ par }}
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<p><button id="add-from-list">Добавить из списка</button></p>
+	</div>	
+	<div class="choosed-params">
+		<div class="result-list">
+			<ul class="parameters">	
+				{% if num != 0 %}
+				{% for item in addition %}
+				<li class="par" id="{{ addition.index(item) }}">{{ item }}</li>
+				{% endfor %}
+				{% endif %}
+			</ul>
+		</div>
+		<div class="usr-param">
+			<button class="options">
+				+
+			</button>
+			<div class="param-formula">
+				<div class="formula">
+				<p><label>Формула параметра</label><input id="parameter" type="text" name="formula"></p>
+				<div class="rules">
+				Правила построения фомулы:
+				<ol class="rules-list">
+					<li id="rule">
+						
+					</li>
+				</ol>
+				</div>
+			</div>
+			<div class="submit">
+				<p><label>Название параметра</label><input id="param-name" type="text" name="name"></p>
+				<div class="error-field">
+					
+				</div>
+				<button id="add-from-user">Добавить</button>
+			</div>
+			</div>
+		</div>
+	</div>
+<button id='continue'>Продолжить</button>
+<!-- 	<p><a href="#">Продолжить</a></p> -->
+</div>
+<script src="{{ url_for('static', filename='get_params.js') }}"></script>
+{% endblock %}

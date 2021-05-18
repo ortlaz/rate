@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+
+{% block links %}{% endblock %}
+
+{% block title %}<title>Ratings</title>{% endblock %}
+
+{% block content %}
+<div class="download-container">
+	<div class="file">
+		<h1>Загрузите файл</h1>
+		<form method="POST" enctype="multipart/form-data">
+			<p><input type="file" id="download-file" name="file"></p>
+			<p><input type="submit" id="submit-btn" value="Продолжить"></p>
+		</form>
+	</div>
+	<div class="info">
+		Правила выборки файлов
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block links %}{% endblock %}
+
+{% block title %}<title>Ratings</title>{% endblock %}
+
+{% block content %}
+<div class="big_table">
+{{ table.to_html() | safe }}	
+</div>
+<div class="formula">
+	{{ formula }}
+</div>
+<button>Экспорт</button>
+<a id="build" href="{{ url_for ('del_file')}}">На главную</a>
+
+{% endblock %}

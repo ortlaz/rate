@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block links %}{% endblock %}
+
+{% block title %}<title>Login</title>{% endblock %}
+
+{% block content %}
+<form method="POST" class="login" id="form">
+	{{ form.hidden_tag() }}
+	<h1>Авторизация</h1>
+	<div class="fields">
+		<p>
+			{{ form.email.label }}
+			{{ form.email(class = 'text_field') }}
+
+            {% for error in form.email.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+		</p>
+		<p>
+			{{ form.password.label }}
+			{{ form.password(class = 'text_field') }}
+			
+			{% for error in form.password.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+		</p>
+		<p>{{ form.submit(class = 'btn') }}</p>
+	</div>
+
+</form>
+{% endblock %}

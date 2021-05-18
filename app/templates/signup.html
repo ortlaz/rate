@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block title %}<title>SignUp</title>{% endblock %}
+{% block links %}{% endblock %}
+
+{% block content %}
+<form method="POST" class="reg" id="form">
+	<h1>Регистрация</h1>
+	{{ form.hidden_tag() }}
+	<div class="fields">
+	<p>
+		{{ form.name.label }}
+		{{ form.name(class = 'text_field') }}
+
+        {% for error in form.name.errors %}
+        <span class="error-message">[{{ error }}]</span>
+        {% endfor %}
+	</p>
+	<p>
+		{{ form.email.label }}
+		{{ form.email(class = 'text_field') }}
+
+        {% for error in form.email.errors %}
+        <span class="error-message">[{{ error }}]</span>
+        {% endfor %}
+	</p>
+	<p>
+		{{ form.password.label }}
+		{{ form.password(class = 'text_field') }}
+
+        {% for error in form.password.errors %}
+        <span class="error-message">[{{ error }}]</span>
+        {% endfor %}
+	</p>
+	<p>
+		{{ form.password_conf.label }}
+		{{ form.password_conf(class = 'text_field') }}
+
+        {% for error in form.password_conf.errors %}
+        <span class="error-message">[{{ error }}]</span>
+        {% endfor %}
+	</p>
+	<p>{{ form.submit(class = 'btn') }}</p>
+	</div>
+</form>
+{% endblock %}

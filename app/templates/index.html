@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% block title %}<title>Ratings</title>{% endblock %}
+	{% block links %}{% endblock %}
+</head>
+<body>
+	<nav>
+		<div class="nav-bar">
+			<div class="nav-bar-emblem">
+				<img src="#" alt="Эмблема">				
+			</div>
+			<div class="nav-bar-menu">
+
+			</div>
+		</div>
+	</nav>
+	<main>
+		{% block content %}
+		<section id="index-con">
+			<div class="index-container">
+				<h1 id="header-phrase">Система построения рейтингов</h1>
+				<div class="buttons">
+					<div id="button">
+						<a href="{{ url_for('signin') }}">Вход</a>
+					</div>
+					<div id="button">
+						<a href="{{ url_for('signup') }}">Регистрация</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section id="descr-con">
+			<div class="description-container">
+				<h1>Описание</h1>
+				
+			</div>
+			
+		</section>
+	</main>
+	{% endblock %}
+	<footer>
+		
+	</footer>
+
+</body>
+</html>
