@@ -23,7 +23,7 @@ $('#add-from-list').on('click', function(){
 		}else{
 			$("div.error-container").html("");
 			$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
-			$("#"+i+".par").html(data);
+			$("#"+i+".par").html(data+'<button onclick="del(this)" class = "del" id="'+i+'"></button>');
 			i += 1;
 		}
 	});
@@ -58,7 +58,7 @@ function addParameter(array){
 
 		$("div.error-field").html("");
 		$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
-		$("#"+i+".par").html(name);
+		$("#"+i+".par").html(name+'<button onclick="del(this)" class = "del" id="'+i+'">');
 	}
 
 }
@@ -69,7 +69,7 @@ $("#add-from-user").on('click', function(){
 
 });
 
-function setArray(array){ //подредачить с удалением
+function setArray(array){ 
 	var list = [];
 
 	$('li.par').each(function(){
@@ -77,14 +77,15 @@ function setArray(array){ //подредачить с удалением
 	});
 
 	list.forEach(function(item, i ,arr){
+		var flag = false;
 		array.forEach(function(el,j,mas){
-			var flag = false;
-			if (item in el.values()){
+
+			if (el['name'] == item){
 				flag = true;
 			}
 		});
 		
-		if (flag==true){
+		if (flag!=true){
 			array.push({"name":item, "formula":''});
 		}		
 	});
@@ -96,15 +97,29 @@ $("#continue").on('click', function(){
 	$.ajax({ 
 		type: 'POST',
 		url: '/chooseparams',
+		success: function(data){
+			window.location.replace('/finish');
+		},
 		data: JSON.stringify(paramsObj),
 		dataType: 'json',
 		headers: {
 			'content-type':'application/json'
 		}
 	});
+	
 });
 
+function del(elem){
 
+	console.log(elem);
+		paramsObj.forEach(function(el,j,mas){
+
+			if 	($("#"+elem.id+".par").text().replace(/[\t\n]+/g,'')==el['name']){
+				mas.splice(mas.indexOf(el),1);
+			}
+		});
+		$("li#"+elem.id+".par").remove();
+}
 
 
 

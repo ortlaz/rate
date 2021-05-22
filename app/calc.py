@@ -119,11 +119,18 @@ def create_parameter(df, line, lst):
 						return('Error')  #сделать нормальный вывод ошибки
 
 				#Преобразуем скаляр
-				elif type(a) == str and a.isdigit():
-					a = float(a)
+				elif type(a) == str:
+					if a.isdigit():
+						a = float(a)
+					elif a in df.columns:
+						a = df[a]
+					
 
-				elif type(b) == str and b.isdigit():
-					b = float(b)
+				elif type(b) == str:
+					if b.isdigit():
+						b = float(b)
+					elif b in df.columns:
+						b = df[b]
 
 				stack.append(OPERS[el][1](a, b))
 					

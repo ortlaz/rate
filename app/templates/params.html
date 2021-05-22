@@ -47,7 +47,7 @@
 			<ul class="parameters">	
 				{% if num != 0 %}
 				{% for item in addition %}
-				<li class="par" id="{{ addition.index(item) }}">{{ item }}</li>
+				<li class="par" id="{{ addition.index(item) }}">{{ item }}<button class = "del" id="{{ addition.index(item) }}" onclick="del(this)"></button></li>
 				{% endfor %}
 				{% endif %}
 			</ul>
@@ -63,7 +63,7 @@
 				Правила построения фомулы:
 				<ol class="rules-list">
 					<li id="rule">
-						
+						Название параметра должно быть заключено в знаки меньше, больше. Пример: <Параметр>
 					</li>
 				</ol>
 				</div>

@@ -5,7 +5,7 @@ from app.models import User, Params, Rate_formula
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-import os, pytz
+import os, json
 from datetime import datetime
 from app.main_logic import *
 from sqlalchemy import func
@@ -65,6 +65,8 @@ def exit():
 @app.route('/main')
 @login_required
 def  main():
+	session['id_edit'] = -1
+	session['id_build'] = -1
 	names = []
 	formulas = []
 	authors = []
@@ -86,6 +88,9 @@ def  main():
 @login_required
 def save_file():
 
+	print(session.get('id_edit'))
+	print(session.get('id_build'))
+
 	if request.method == 'POST':
 		dl_file = request.files.get('file')
 
@@ -104,7 +109,7 @@ def save_file():
 			usr.file_path = f_name
 			db.session.commit()
 
-			if session.get('id_build'):
+			if session.get('id_build') != -1:
 				return redirect('make_rate')
 			else:
 				return redirect(url_for('chooseparams'))
@@ -113,13 +118,19 @@ def save_file():
 @app.route('/chooseparams', methods=['GET', 'POST'])
 @login_required
 def chooseparams():
-	items = []
+
 	# print(session.get('id_edit'))
-	if session.get('id_edit'):
+	# print(session.get('id_build'))
+	
+	if session.get('id_edit') != -1:
+		items = []
+		f_items = []
 		rate = db.session.query(Rate_formula).get(session.get('id_edit'))
 		for el in rate.params:
-			items.append(el.par_name)
-	# print(items)
+			if el.formula:
+				items.append(el.par_name)
+				f_items.append(el.formula)
+
 
 	if current_user:
 		user = db.session.query(User).get(current_user.get_id())
@@ -138,6 +149,15 @@ def chooseparams():
 
 	if request.method == "POST":
 		data = request.json #type - list
+
+		if items:
+			for i in range(1,len(data)):
+				if data[i]['name'] in items:
+					par = Params(formula = f_items[items.index(data[i]['name'])], par_name = data[i]['name'])
+					db.session.add(par)
+					db.session.commit()
+					data.remove(data[i])					
+
 		par = Params(formula = data[0]['formula'], par_name = data[0]['name'])
 		db.session.add(par)
 		db.session.commit()
@@ -149,7 +169,9 @@ def chooseparams():
 		last_id = db.session.query(func.max(Params.id)).scalar()
 		session['first_id'] = first_id
 		session['last_id'] = last_id
-		return redirect(url_for('finish'))
+		
+		# return redirect(url_for('finish'))
+		return json.dumps({'success':True}),200,{'ContentType':'application/json'}
 
 	return render_template('params.html', table = parameters, addition=items, num=len(items))
 
@@ -157,7 +179,7 @@ def chooseparams():
 @login_required
 def finish():
 	first_id = session.get('first_id')
-	last_id = session.get('last_id')
+	last_id = session.get('last_id') + 1
 	if current_user:
 		user = db.session.query(User).get(current_user.get_id())
 	big_tbl = data_inp(os.path.join(app.config['FOLDER_FOR_FILES'], user.file_path))
@@ -274,6 +296,8 @@ def make_rate():
 	example = create_rate(weight_list, our_df)
 	our_df = example[0]
 	our_df.round(3)
+	our_df = our_df.sort_values(by='Рейтинг', ascending=False)
+	our_df.index = sorted(our_df.index.values.tolist())
 	# print(our_df, '\n' ,example[1])
 
 	return render_template('rating.html', table = our_df, formula=example[1])
@@ -284,7 +308,7 @@ def edit():
 	if request.method == "POST":
 		data = int(request.json)
 		session['id_edit'] = data
-	return redirect(url_for("save_file"))
+	return json.dumps({'success':True}),200,{'ContentType':'application/json'}
 
 @app.route('/build', methods=['GET', 'POST'])
 @login_required
@@ -292,7 +316,5 @@ def build():
 	if request.method == "POST":
 		data = int(request.json)
 		session['id_build'] = data
-	return redirect(url_for("save_file"))
+	return json.dumps({'success':True}),200,{'ContentType':'application/json'}
 
-# @app.route('/build_rate', methods=['GET', 'POST'])
-# @login_required
