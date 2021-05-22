@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, session
+from flask import render_template, flash, redirect, url_for, request, session, send_from_directory
 from app import app, db
 from app.forms import SignUpForm, SignInForm
 from app.models import User, Params, Rate_formula
@@ -10,11 +10,12 @@ from datetime import datetime
 from app.main_logic import *
 from sqlalchemy import func
 from tzlocal import get_localzone
+import xlsxwriter
 
 def delete_file(file):
-		file_for_del = os.path.join(app.config['FOLDER_FOR_FILES'], file)
-		if os.path.isfile(file_for_del):
-			os.remove(file_for_del)
+	file_for_del = os.path.join(app.config['FOLDER_FOR_FILES'], file)
+	if os.path.isfile(file_for_del):
+		os.remove(file_for_del)
 
 
 def legal_files(name):
@@ -43,7 +44,7 @@ def signin():
 	return render_template('signin.html', form=form)
 
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST']) #добавить подтверждение по почте
 def signup():
 	if current_user.is_authenticated:
 		return redirect(url_for('main'))
@@ -57,14 +58,27 @@ def signup():
 		return redirect(url_for('signin'))
 	return render_template('signup.html', form=form)
 
+
 @app.route('/exit')
 def exit():
 	logout_user()
 	return redirect(url_for('index'))
 
+
 @app.route('/main')
 @login_required
 def  main():
+
+	del_file()
+	if current_user:
+		usr_id = current_user.get_id()
+
+	lis_dir = os.listdir(app.config['FOLDER_FOR_FILES'])
+	for item in lis_dir:
+		if item.find('_'+usr_id+'_') != -1:
+			 os.remove(os.path.join(app.config['FOLDER_FOR_FILES'], item))
+
+
 	session['id_edit'] = -1
 	session['id_build'] = -1
 	names = []
@@ -114,6 +128,25 @@ def save_file():
 			else:
 				return redirect(url_for('chooseparams'))
 	return render_template('file_upload.html')
+
+
+@app.route('/del_file')
+@login_required
+def del_file():
+	if current_user:
+		user = db.session.query(User).get(current_user.get_id())
+	if user.file_path:
+		delete_file(user.file_path);
+		user.file_path = ''
+		db.session.commit()
+	return redirect(url_for('main'))
+
+
+@app.route('/download/<path:filename>')
+@login_required
+def dowload_file(filename):
+	return send_from_directory(app.config['FOLDER_FOR_FILES'], filename)
+
 
 @app.route('/chooseparams', methods=['GET', 'POST'])
 @login_required
@@ -174,6 +207,7 @@ def chooseparams():
 		return json.dumps({'success':True}),200,{'ContentType':'application/json'}
 
 	return render_template('params.html', table = parameters, addition=items, num=len(items))
+
 
 @app.route('/finish', methods=['GET', 'POST'])
 @login_required
@@ -237,16 +271,6 @@ def finish():
 
 	return render_template('params_table.html', params = pars_names, len=len(pars_names))
 
-@app.route('/del_file')
-@login_required
-def del_file():
-	if current_user:
-		user = db.session.query(User).get(current_user.get_id())
-	if user.file_path:
-		delete_file(user.file_path);
-		user.file_path = ''
-		db.session.commit()
-	return redirect(url_for('main'))
 
 @app.route('/make_rate')
 @login_required
@@ -300,7 +324,16 @@ def make_rate():
 	our_df.index = sorted(our_df.index.values.tolist())
 	# print(our_df, '\n' ,example[1])
 
-	return render_template('rating.html', table = our_df, formula=example[1])
+	#export to xlsx
+	if current_user:
+		f_name = 'example'+'_'+current_user.get_id()+'_'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S") +'.xlsx'
+	f_path = os.path.join(app.config['FOLDER_FOR_FILES'], f_name)
+	writer = pd.ExcelWriter(os.path.join(f_path), engine='xlsxwriter')
+	our_df.to_excel(writer,'Sheet1')
+	writer.save()
+
+	return render_template('rating.html', table = our_df, formula=example[1], file=f_name)
+
 
 @app.route('/edit', methods=['GET', 'POST'])
 @login_required
@@ -309,6 +342,7 @@ def edit():
 		data = int(request.json)
 		session['id_edit'] = data
 	return json.dumps({'success':True}),200,{'ContentType':'application/json'}
+
 
 @app.route('/build', methods=['GET', 'POST'])
 @login_required

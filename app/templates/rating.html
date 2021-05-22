@@ -11,7 +11,7 @@
 <div class="formula">
 	{{ formula }}
 </div>
-<button>Экспорт</button>
+<a href="{{ url_for('dowload_file',filename=file) }}">Экспорт</a>
 <a id="build" href="{{ url_for ('del_file')}}">На главную</a>
 
 {% endblock %}
