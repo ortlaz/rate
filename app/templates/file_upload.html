@@ -1,20 +1,37 @@
 {% extends "index.html" %}
 
-{% block links %}{% endblock %}
-
 {% block title %}<title>Ratings</title>{% endblock %}
 
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/file_upload.css') }}">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
+
 {% block content %}
+<main>
+<h1>Загрузите файл</h1>
 <div class="download-container">
 	<div class="file">
-		<h1>Загрузите файл</h1>
 		<form method="POST" enctype="multipart/form-data">
-			<p><input type="file" id="download-file" name="file"></p>
+			<div class="input">
+				<input type="file" id="download-file" name="file">
+				<label for="download-file" class="download-btn">
+					<span class="download-text">Выбрать файл</span>
+				</label>
+			</div>
 			<p><input type="submit" id="submit-btn" value="Продолжить"></p>
 		</form>
 	</div>
 	<div class="info">
-		Правила выборки файлов
+		Правила выборки файлов:
+		<ol>
+			<li>
+				Файл не должен быть пустым.
+			</li>
+			<li>
+				Допускаются следующие расширения файлов: '.xlsx', '.xlsm'.
+			</li>
+		</ol>
 	</div>
 </div>
+</main>
+<script src="{{ url_for('static', filename='scr/upload.js') }}"></script>
 {% endblock %}

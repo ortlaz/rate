@@ -9,8 +9,19 @@ $(document).ready(function(){
 		$('input[id_max='+i+']').prop('checked',false);
 
 	}
-	
+
+
 });
+
+function monkey(){
+		if (this.value.match(/[^\d\.]/g)){
+			this.value = this.value.replace(/[^\d\.]/g,'');
+		}
+	}
+
+document.querySelectorAll('.weight').forEach(function(item){
+	item.onkeyup = monkey;
+}); 
 
 function check_box(elem){
 

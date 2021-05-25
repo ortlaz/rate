@@ -1,17 +1,33 @@
 {% extends "index.html" %}
 
-{% block links %}{% endblock %}
-
 {% block title %}<title>Ratings</title>{% endblock %}
 
-{% block content %}
-<div class="big_table">
-{{ table.to_html() | safe }}	
-</div>
-<div class="formula">
-	{{ formula }}
-</div>
-<a href="{{ url_for('dowload_file',filename=file) }}">Экспорт</a>
-<a id="build" href="{{ url_for ('del_file')}}">На главную</a>
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/rating.css') }}">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
 
+{% block content %}
+<main>
+	<div class="main-cnt">
+		<div class="big_table">
+		{{ table.to_html(classes = 'tablesorter" id="dataframe') | safe }}	
+		</div>
+		<div class="flag">
+			<p><label>Введите граничное значение:</label><input type="text" id="flag"  oninput="if (value.length>20) value = value.slice(0,20)"></p>
+			</div>
+		<div class="info">
+			<div class="formula">
+			{{ formula }}
+			</div>
+			<div class="links">
+				<a href="{{ url_for('dowload_file',filename=file) }}" class="btn">Экспорт</a>
+				<a id="build" href="{{ url_for ('del_file')}}" class="btn">На главную</a>
+			</div>
+		</div>
+	</div>
+</main>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="{{ url_for('static', filename='scr/main.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/jquery.tablesorter.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/jquery.tablesorter.widgets.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/rating_sort.js') }}"></script>
 {% endblock %}

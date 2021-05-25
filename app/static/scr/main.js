@@ -33,3 +33,6 @@ function build(elem){
 	// window.location.replace('/build');
 }
 
+function create(){
+	window.location.replace('/upload')
+}

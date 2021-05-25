@@ -1,15 +1,15 @@
 {% extends "index.html" %}
 {% block title %}<title>SignUp</title>{% endblock %}
-{% block links %}{% endblock %}
-
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/singup.css') }}">{% endblock %}
 {% block content %}
+<main>
 <form method="POST" class="reg" id="form">
 	<h1>Регистрация</h1>
 	{{ form.hidden_tag() }}
 	<div class="fields">
 	<p>
 		{{ form.name.label }}
-		{{ form.name(class = 'text_field') }}
+		{{ form.name(class = 'text_field', oninput="if (value.length>200) value = value.slice(0,200)") }}
 
         {% for error in form.name.errors %}
         <span class="error-message">[{{ error }}]</span>
@@ -17,7 +17,7 @@
 	</p>
 	<p>
 		{{ form.email.label }}
-		{{ form.email(class = 'text_field') }}
+		{{ form.email(class = 'text_field', oninput="if (value.length>120) value = value.slice(0,120)") }}
 
         {% for error in form.email.errors %}
         <span class="error-message">[{{ error }}]</span>
@@ -33,7 +33,7 @@
 	</p>
 	<p>
 		{{ form.password_conf.label }}
-		{{ form.password_conf(class = 'text_field') }}
+		{{ form.password_conf(class = 'text_field', oninput="if (value.length>20) value = value.slice(0,20)") }}
 
         {% for error in form.password_conf.errors %}
         <span class="error-message">[{{ error }}]</span>
@@ -42,4 +42,5 @@
 	<p>{{ form.submit(class = 'btn') }}</p>
 	</div>
 </form>
+</main>
 {% endblock %}

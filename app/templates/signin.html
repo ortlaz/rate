@@ -1,17 +1,18 @@
 {% extends "index.html" %}
 
-{% block links %}{% endblock %}
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/singup.css') }}">{% endblock %}
 
 {% block title %}<title>Login</title>{% endblock %}
 
 {% block content %}
+<main>
 <form method="POST" class="login" id="form">
 	{{ form.hidden_tag() }}
 	<h1>Авторизация</h1>
 	<div class="fields">
 		<p>
 			{{ form.email.label }}
-			{{ form.email(class = 'text_field') }}
+			{{ form.email(class = 'text_field', oninput="if (value.length>120) value = value.slice(0,120)") }}
 
             {% for error in form.email.errors %}
             <span class="error-message">[{{ error }}]</span>
@@ -19,7 +20,7 @@
 		</p>
 		<p>
 			{{ form.password.label }}
-			{{ form.password(class = 'text_field') }}
+			{{ form.password(class = 'text_field', oninput="if (value.length>20) value = value.slice(0,20)") }}
 			
 			{% for error in form.password.errors %}
             <span class="error-message">[{{ error }}]</span>
@@ -29,4 +30,5 @@
 	</div>
 
 </form>
+</main>
 {% endblock %}

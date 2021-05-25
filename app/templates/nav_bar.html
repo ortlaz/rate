@@ -1,0 +1,9 @@
+{% block navlink %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nav_bar.css') }}">{% endblock %}
+<nav>
+	<div class="nav-bar">
+		<div class="nav-bar-emblem">
+			<img src="#" alt="Эмблема">				
+		</div>
+		{% block content %}{% endblock %}
+	</div>
+</nav>

@@ -1,0 +1,116 @@
+.raiting-list{
+	margin: 50px auto;
+	font-size: 20px;
+	width: 60%;
+}
+
+.elem{
+
+	margin: 35px auto;
+
+}
+
+.item{
+	border: 2px solid;
+	border-radius: 20px;
+	padding: 25px 50px;
+	background-color: white;
+	box-shadow: 2px 2px 2px #5e6d7d;
+}
+
+.data-name{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-size: 16px;
+	flex-wrap: wrap;
+}
+
+h3{
+	text-align: center;
+	padding: 0 0 10px 0;
+}
+
+#fl{
+	min-width: 20%;
+	text-align: center;
+}
+
+.btn{
+	padding:8px;
+	font-size: 16px;
+	min-width: 100px;
+	width: 30%;
+	text-align: center;
+	font-family: auto;
+	color: #466e9c;
+	border-radius: 10px;
+	border: 1px inset;
+	cursor: pointer;
+	margin-left: auto;
+}
+
+.tbl-buttons{
+	display: flex;
+	flex-direction: column;
+}
+
+
+.buttons{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+
+}
+
+.build:hover, .change:hover, .btn:hover{
+	color: white;
+	background-color: #466e9c;
+	border: none;
+}
+
+.change, .build{
+	padding: 10px;
+	font-size: 16px;
+	min-width: 100px;
+	width:  25%;
+	text-align: center;
+	font-family: auto;
+	color: #466e9c;
+	border-radius: 8px;
+	border: 1px solid;
+	margin: 5px 0 0 0;
+	box-shadow: 1px 1px 2px #5e6d7d;
+	cursor: pointer;
+}
+
+.pages{
+	margin: 100px auto 0 auto;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+a.pg {
+	padding: 5px;
+	font-size: 20px;
+  line-height: 1em;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  color: #466e9c;
+  background-color: white;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px #ddd inset, 0 1px 1px #466e9c;
+}
+a.pg:hover {
+  background: #64c0cc linear-gradient(#fff, #64c0cc);
+  box-shadow: 0 0 0 1px #aaa inset, 0 1px 1px #aaa;
+}
+a.pg:active {
+  background: none;
+    box-shadow: 0 0 0 1px #64c0cc inset, 0 1px 3px rgba(0,0,0,.5) inset, 0 1px 2px #fff;
+}

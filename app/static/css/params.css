@@ -1,0 +1,130 @@
+.items-list .ui-selecting {
+    background:#278dc4; 
+}
+         
+.items-list .ui-selected { 
+    background:#278dc4;
+    color:white; 
+}
+
+.parameters, .items-list { 
+    list-style-type:none;
+    width: 100%;
+    padding: 0;
+}
+
+.parameters li, .items-list li {
+    margin: 5px;
+    padding: 10px;
+    font-size:20px; 
+    height:18px; 
+    text-align: center;
+    color: #466e9c;
+}
+
+.parameters li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+
+
+.edit-container{
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    font-size: 18px;
+
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-auto-flow: row;
+    grid-column-gap: 10%;
+    margin: 20px;
+
+}
+
+.usr-param{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.param-formula{
+    display: flex;
+    flex-direction: column;
+}
+
+.submit{
+    display: flex;
+    flex-direction: column;
+}
+
+.formula p, .submit p {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 95%;
+    font-family: auto;
+}
+
+#parameter, #param-name, #search{
+    font-size: 16px;
+    font-family: auto;
+    padding: 10px;
+}
+
+#add-from-list, #add-from-user, #continue{
+    padding:10px;
+    font-size: 16px;
+    min-width: 100px;
+    width: 100%;
+    text-align: center;
+    font-family: auto;
+    color: #466e9c;
+    border-radius: 10px;
+    border: 1px inset;
+    cursor: pointer;
+}
+
+#add-from-list:hover, #add-from-user:hover, #continue:hover, .options:hover{
+    color: white;
+    background-color: #466e9c;
+    border: none;
+}
+
+.del{
+    margin: 0;
+    line-height: 0.5;
+    min-height: 30px;
+    padding: 10px;
+    color: white;
+    background-color: #c9243d;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    text-align: center;
+    font-family: auto;
+    border-radius: 10px;
+    border: 1px solid red;
+}
+
+.options{
+    font-size: 20px;
+    min-width: 30px;
+    width: 8%;
+    text-align: center;
+    font-family: auto;
+    color: #466e9c;
+    border-radius: 50px;
+    border: 1px inset;
+    cursor: pointer;
+}
+
+#rule{
+    margin: 10px auto;
+}

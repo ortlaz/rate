@@ -2,21 +2,14 @@
 <html lang="ru">
 <head>
 	{% block title %}<title>Ratings</title>{% endblock %}
-	{% block links %}{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}">
+	{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">{% endblock %}
+	{% block navlink %}{% endblock %}
 </head>
 <body>
-	<nav>
-		<div class="nav-bar">
-			<div class="nav-bar-emblem">
-				<img src="#" alt="Эмблема">				
-			</div>
-			<div class="nav-bar-menu">
-
-			</div>
-		</div>
-	</nav>
+	{%block nav%}{% include "nav_bar.html" %}{% endblock %}
+	{% block content %}
 	<main>
-		{% block content %}
 		<section id="index-con">
 			<div class="index-container">
 				<h1 id="header-phrase">Система построения рейтингов</h1>

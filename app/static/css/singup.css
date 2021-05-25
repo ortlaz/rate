@@ -1,0 +1,32 @@
+#form{
+	margin: 90px auto 20px auto;
+	width: 40%;
+	min-width: 350px;
+	padding: 20px 50px 30px 50px;
+	font-size: 20px;
+
+}
+
+.text_field{
+	display: flex;
+	margin: 10px 0 10px 0;
+	padding: 10px;
+	width: 95%;
+	font-size: 20px;
+	font-family: auto;
+}
+
+.btn{
+	padding: 10px;
+	font-size: 20px;
+	min-width: 250px;
+	width: 60%;
+	text-align: center;
+	margin: 10px 20%;
+	font-family: auto;
+	color: #466e9c;
+}
+
+.fields{
+	padding: 20px 0;
+}

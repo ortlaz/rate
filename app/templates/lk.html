@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block title %}<title>LK</title>{% endblock %}
+
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/lk.css') }}"><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
+{% block content %}
+<main>
+	<div class="lk-cnt">
+		<div class="usr-info">
+			<p>Имя: {{ usr.name }}</p>
+			<p>Электронная почта: {{ usr.email }}</p>
+		</div>
+		<div class="usr-rates">
+			<p id="txt">Созданные формулы:</p>
+
+			{% for rate in rates.items %}
+			<div class="elem" id="{{ rate.id }}">
+				<div class="item">
+					<h3>{{ rate.fl_name }}</h3>
+					<p>{{ rate.formula }}</p>
+					<div>
+						<p>Дата: {{rate.time.strftime("%d.%m.%y")}}</p>
+					</div>
+				</div>
+				<div class="buttons">
+					<button class="change" id="{{ rate.id }}" onclick="change(this)">Изменить</button>
+					<button class="change" id="{{ rate.id }}" onclick="del(this)">Удалить</button>
+					<button class="build" id="{{ rate.id }}" onclick="build(this)">Построить рейтинг</button>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<div class="pages">
+			{% if rates.has_prev %}<a href="{{ url_for('account', page = rates.prev_num) }}">Предыдущая страница</a>{% endif %}
+			{% if rates.has_next %}<a href="{{ url_for('account', page = rates.next_num) }}">Следующая страница</a>{% endif %}	
+		</div>
+	</div>
+</main>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script src="{{ url_for('static', filename='scr/main.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/del_rate.js') }}"></script>
+{% endblock %}

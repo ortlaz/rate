@@ -1,0 +1,46 @@
+main{
+	display: flex;
+	flex-direction: column;
+	max-width: 900px;
+	margin: 0 auto;
+	font-family: auto;
+}
+
+#index-con{
+	margin: 150px 30px;
+	background-color: white;
+	height: 60vh;
+	max-height: 100vh;
+	padding: 20px 10px;
+	font-size: 30px;
+}
+
+.index-container{
+	margin: 0 auto;
+}
+
+section{
+	height: 100vh;
+}
+
+.buttons{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin: 15% auto;
+	flex-wrap: wrap;
+	margin: 20% auto;
+	min-width: 300px;
+}
+
+#descr-con{
+	font-size: 30px;
+}
+a{
+		color: #466e9c;
+		flex-grow: 2;
+		padding: 20px 50px;
+		max-width: 200px;
+		text-align: center;
+		margin: 10px 30px;
+}

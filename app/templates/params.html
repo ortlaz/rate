@@ -1,38 +1,25 @@
 {% extends "index.html" %}
 
-{% block links %}{% endblock %}
-
 {% block title %}<title>Ratings</title>{% endblock %}
 
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/params.css') }}">
+<link rel="stylesheet" href="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.css">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
+
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
 
-<link rel="stylesheet" href="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.css">
-
-<script src="http://dir.by/example_lib/touch-punch/jquery.ui.touch-punch.js"></script>
-
-<style>
-    /* цвет используется когда нажали левую клавишу мыши и держим в нажатом положении */
-    .items-list .ui-selecting { background:#FECA40; }
-         
-    /* цвет используется когда отпустили левую клавишу мыши (цвет выделенного элемента) */
-    .items-list .ui-selected { background:#F39814; color:white; }
-
-    /* расположение элементов */
-    .items-list { list-style-type:none; margin:0; padding:0; width:60%; }
-    .items-list li { margin:3px; padding:0.4em; font-size:1.4em; height:18px; }
-</style>
-
+<main>
 <div  class="edit-container">
+<div class="container">
 	<div class="param-list">
+		<h3>Список показателей</h3>
 		<div class="search">
-			Поиск
+		<input type="text" id="search" onkeyup="search()" placeholder="Поиск...">
 		</div>
 		<div class="error-container">
 		</div>
 		<div class="param-choose">
-			<ul class="items-list">
+			<ul class="items-list" id="the-list">
 			{% for par in table %}
 				<li class="ui-widget-content">
 					{{ par }}
@@ -44,42 +31,57 @@
 	</div>	
 	<div class="choosed-params">
 		<div class="result-list">
+			<h3>Выбранные показатели</h3>
 			<ul class="parameters">	
 				{% if num != 0 %}
 				{% for item in addition %}
-				<li class="par" id="{{ addition.index(item) }}">{{ item }}<button class = "del" id="{{ addition.index(item) }}" onclick="del(this)"></button></li>
+				<li class="par" id="{{ addition.index(item) }}">{{ item }}<button class = "del" id="{{ addition.index(item) }}" onclick="del(this)">Удалить</button></li>
 				{% endfor %}
 				{% endif %}
 			</ul>
 		</div>
 		<div class="usr-param">
-			<button class="options">
-				+
-			</button>
+			<h3>Добавить показатель</h3>
 			<div class="param-formula">
 				<div class="formula">
-				<p><label>Формула параметра</label><input id="parameter" type="text" name="formula"></p>
-				<div class="rules">
-				Правила построения фомулы:
-				<ol class="rules-list">
-					<li id="rule">
-						Название параметра должно быть заключено в знаки меньше, больше. Пример: <Параметр>
-					</li>
-				</ol>
+					<p><label>Формула параметра</label><input id="parameter" type="text" name="formula" oninput="if (value.length>1024) value = value.slice(0,1024)"></p>
+					<div class="rules">
+						 Правила построения фомулы:
+						<ol class="rules-list">
+								<li id="rule">
+									Название показателя должно быть заключено в знаки меньше, больше. Пример: <Параметр>.
+								</li>
+								<li id="rule">
+									В формуле допустимы следующие операции: сложение ('+'), умножение ('*'), деление ('/'), вычитание ('-'), возведение в степень ('^').
+								</li>
+								<li id="rule">
+									К показателю нельзя прибавить (или вычесть) скалярное значение.
+								</li>
+								<li id="rule">
+									Формула не должна начинаться с операнда или скобки.
+								</li>
+								<li id="rule">
+									Формула должна включать хотя бы один показатель.
+								</li>
+						</ol>
+					</div>
 				</div>
-			</div>
-			<div class="submit">
-				<p><label>Название параметра</label><input id="param-name" type="text" name="name"></p>
-				<div class="error-field">
-					
+				<div class="submit">
+					<p><label>Название параметра</label><input id="param-name" type="text" name="name" oninput="if (value.length>200) value = value.slice(0,200)"></p>
+					<div class="error-field">
+					</div>
+					<button id="add-from-user">Добавить</button>
 				</div>
-				<button id="add-from-user">Добавить</button>
-			</div>
 			</div>
 		</div>
 	</div>
+</div>
 <button id='continue'>Продолжить</button>
 <!-- 	<p><a href="#">Продолжить</a></p> -->
 </div>
-<script src="{{ url_for('static', filename='get_params.js') }}"></script>
+</main>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+<script src="http://dir.by/example_lib/touch-punch/jquery.ui.touch-punch.js"></script>
+<script src="{{ url_for('static', filename='scr/get_params.js') }}"></script>
 {% endblock %}

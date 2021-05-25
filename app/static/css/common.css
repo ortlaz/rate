@@ -1,0 +1,20 @@
+body{
+	margin: 0 auto;
+	background-color: #c4e2f2;
+	color: #466e9c;
+}
+
+main{
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	width: 80%;
+}
+
+a{
+	text-decoration: none;
+}
+
+main h1{
+	text-align: center;
+}

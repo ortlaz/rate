@@ -1,0 +1,9 @@
+{% extends 'nav_bar.html' %}
+
+{% block content %}
+<div class="nav-bar-menu">
+	<a href="{{url_for('main')}}">Главная страница</a>
+	<a href="{{ url_for('account') }}">Личный кабинет</a>
+	<a href="{{url_for('exit')}}">Выход</a>
+</div>
+{% endblock %}

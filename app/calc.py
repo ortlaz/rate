@@ -118,6 +118,9 @@ def create_parameter(df, line, lst):
 					if (el == '+' or el == '-') and type(a) != type (b):
 						return('Error')  #сделать нормальный вывод ошибки
 
+					if (el == '^') and type(a) == type (b) and type(a) != str:
+						return('Error') 
+
 				#Преобразуем скаляр
 				elif type(a) == str:
 					if a.isdigit():

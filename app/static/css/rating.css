@@ -1,0 +1,90 @@
+.main-cnt{
+	margin: 50px auto;
+	font-size: 20px;
+}
+
+.info{
+	margin: 30px auto;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.links{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin: 20px;
+}
+
+.btn{
+	margin: 8px auto;
+	padding:8px;
+	font-size: 16px;
+	min-width: 100px;
+	text-align: center;
+	font-family: auto;
+	color: #466e9c;
+	border-radius: 10px;
+	border: 1px inset;
+	cursor: pointer;
+	width: 25%;
+	background-color: white;
+}
+
+.btn:hover{
+	color: white;
+	background-color: #466e9c;
+	border: none;
+}
+
+.big-table{
+	width: 100%;
+}
+
+table.tablesorter tr td{
+	padding: 18px;
+	border-top: 1px solid #ffffff;
+	border-bottom: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	background: #fafafa;
+}
+
+
+table.tablesorter tbody tr:hover td{
+	background: #f2f2f2;
+}
+
+.tablesorter th{ 
+	background: #466e9c;
+	color: white;
+	padding: 20px;
+	cursor: pointer;
+}
+
+.tablesorter td{
+	text-align: center;
+	border: none;
+
+}
+
+.tablesorter{
+	border: none;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#flag{
+	margin: 20px auto 0 auto;
+	font-size: 16px;
+    font-family: auto;
+    padding: 10px;
+}
+
+.flag{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}

@@ -15,7 +15,12 @@ $('#add-from-list').on('click', function(){
 		var flag = false;
 
 		if (i>1){
-			$("li.par").each(function(){if ($(this).text() == data){flag=true;}});
+			$("li.par").each(function(){
+
+				if ($(this).text().replace('Удалить','') == data){
+					flag=true;
+				}
+			});
 		}
 
 		if (flag == true) {
@@ -23,7 +28,7 @@ $('#add-from-list').on('click', function(){
 		}else{
 			$("div.error-container").html("");
 			$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
-			$("#"+i+".par").html(data+'<button onclick="del(this)" class = "del" id="'+i+'"></button>');
+			$("#"+i+".par").html(data+'<button onclick="del(this)" class = "del" id="'+i+'">Удалить</button>');
 			i += 1;
 		}
 	});
@@ -45,7 +50,7 @@ function addParameter(array){
 	}
 
 	if (i>1){
-		$("li.par").each(function(){if ($(this).text() == name){flag=true;}});
+		$("li.par").each(function(){if ($(this).text().replace('Удалить','') == name){flag=true;}});
 	}
 
 	if (flag == true) {
@@ -58,7 +63,7 @@ function addParameter(array){
 
 		$("div.error-field").html("");
 		$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
-		$("#"+i+".par").html(name+'<button onclick="del(this)" class = "del" id="'+i+'">');
+		$("#"+i+".par").html(name+'<button onclick="del(this)" class = "del" id="'+i+'">Удалить</button>');
 	}
 
 }
@@ -80,13 +85,13 @@ function setArray(array){
 		var flag = false;
 		array.forEach(function(el,j,mas){
 
-			if (el['name'] == item){
+			if (el['name'].replace('Удалить','') == item.replace('Удалить','')){
 				flag = true;
 			}
 		});
 		
 		if (flag!=true){
-			array.push({"name":item, "formula":''});
+			array.push({"name":item.replace('Удалить',''), "formula":''});
 		}		
 	});
 }
@@ -94,18 +99,23 @@ function setArray(array){
 $("#continue").on('click', function(){
 	// var paramsObj = [];
 	setArray(paramsObj);
-	$.ajax({ 
-		type: 'POST',
-		url: '/chooseparams',
-		success: function(data){
-			window.location.replace('/finish');
-		},
-		data: JSON.stringify(paramsObj),
-		dataType: 'json',
-		headers: {
-			'content-type':'application/json'
-		}
-	});
+	console.log(paramsObj);
+	if (paramsObj.length){
+		$.ajax({ 
+			type: 'POST',
+			url: '/chooseparams',
+			success: function(data){
+				window.location.replace('/finish');
+			},
+			data: JSON.stringify(paramsObj),
+			dataType: 'json',
+			headers: {
+				'content-type':'application/json'
+			}
+		});		
+	}else{
+		$("div.error-container").html("Error");
+	}
 	
 });
 
@@ -121,5 +131,20 @@ function del(elem){
 		$("li#"+elem.id+".par").remove();
 }
 
+function search(){
+	var input = document.getElementById('search');
+	var filter = input.value.toUpperCase();
+	var list = document.getElementById('the-list');
+	var element = list.getElementsByTagName('li');
 
+	for (i = 0; i<element.length;i++){
+		data = element[i].innerHTML.replace(/[\t\n]+/g,'');
+		if (data.toUpperCase().indexOf(filter) >-1){
+			element[i].style.display="";
+		}else{
+			element[i].style.display="none";
+		}
+	}
+
+}
 

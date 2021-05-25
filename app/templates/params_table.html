@@ -1,67 +1,70 @@
 {% extends "index.html" %}
 
-{% block links %}{% endblock %}
-
 {% block title %}<title>Ratings</title>{% endblock %}
 
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/params_table.css') }}">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
 {% block content %}
+<main>
+<div class="big-cont">
+	<div class="par-tbl">
+		<table class="edit-table">
+			<thead>
+				<tr>
+					<td>
+						Показатель
+					</td>
+					<td>
+						Вес
+					</td>
+					<td>
+						Максимизировать
+					</td>
+					<td>
+						Минимизировать
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for i in range(0,len) %}
+				<tr>
+					<td class="pars names" id="{{ i }}">
+						{{ params[i].name }}
+					</td>
+					<td class="pars">
+						<input type="text" class="weight" value="{{ params[i].weight }}" id="{{ i }}" oninput="if (value.length>8) value = value.slice(0,8)">
+					</td>
+					<td class="pars">
+						<input onchange="check_box(this)" type="checkbox" class="max" id_max="{{ i }}">
+					</td>
+					<td class="pars">
+						<input onchange="check_box(this)"  type="checkbox" class="min" id_min="{{ i }}">
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="tbl-errors">
+		</div>
+	</div>
+
+	<div class="rate-formula">
+		<label>Название рейтинга</label>
+		<input type="text" name="rate-name" id="name" oninput="if (value.length>200) value = value.slice(0,200)">
+		<button id="create-formula" onclick="create_formula()">Создать новую формулу</button>
+		<div id="rate-form">
+		</div>
+		<div class="form-errors">			
+		</div>
+		<div class="options">
+			<button id="save" onclick="btn_activate()">Сохранить</button>
+			<a id="build" href="{{ url_for ('make_rate')}}">Построить рейтинг</a>
+			<a id="to-main" href="{{ url_for ('del_file')}}">На главную</a>
+		</div>
+	</div>
+</div>
+</main>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-
-
-<div class="par-tbl">
-	<table class="edit-table">
-		<thead>
-			<tr>
-				<td>
-					Показатель
-				</td>
-				<td>
-					Вес
-				</td>
-				<td>
-					Максимизировать
-				</td>
-				<td>
-					Минимизировать
-				</td>
-			</tr>
-		</thead>
-		<tbody>
-			{% for i in range(0,len) %}
-			<tr>
-				<td class="pars names" id="{{ i }}">
-					{{ params[i].name }}
-				</td>
-				<td class="pars">
-					<input type="text" class="weight" value="{{ params[i].weight }}" id="{{ i }}">
-				</td>
-				<td class="pars">
-					<input onchange="check_box(this)" type="checkbox" class="max" id_max="{{ i }}">
-				</td>
-				<td class="pars">
-					<input onchange="check_box(this)"  type="checkbox" class="min" id_min="{{ i }}">
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<div class="tbl-errors">
-		
-	</div>
-</div>
-<div class="rate-formula">
-	<label>Название рейтинга</label>
-	<input type="text" name="rate-name" id="name">
-	<button id="create-formula" onclick="create_formula()">Создать новую формулу</button>
-	<div id="rate-form">
-	</div>
-	<div class="form-errors">
-		
-	</div>
-	<button id="save" onclick="btn_activate()">Сохранить</button>
-	<a id="build" href="{{ url_for ('make_rate')}}">Построить рейтинг</a>
-	<a id="build" href="{{ url_for ('del_file')}}">На главную</a>
-</div>
-<script src="{{ url_for('static', filename='set_params.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/set_params.js') }}"></script>
 {% endblock %}
