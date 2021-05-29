@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block title %}<title>Error</title>{% endblock %}
+
+{% block links %}<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/error.css') }}">
+<link rel="stylesheet" href="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.css">{% endblock %}
+{%block nav%}{% include "nav_bar_auth.html" %}{% endblock %}
+
+{% block content %}
+<main>
+	<div class="container">
+		<h1>Упс! Что-то пошло не так</h1>
+		<p>
+			{{error}}
+		</p>
+		<a href="{{url_for('main')}}">Вернуться на главную страницу</a>	
+	</div>
+	
+</main>
+
+{% endblock %}

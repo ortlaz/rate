@@ -9,9 +9,19 @@ def create_new_param(phrase, table, params, name, df):
 	our_df = df.copy()
 	new_parameter = create_parameter(f_df, phrase, params)
 
-	our_df = pd.concat([our_df, new_parameter], keys = ['Название', name], axis=1)
+	if type(new_parameter) ==str:
+	 #если вернулась ошибка
+		return new_parameter
 
-	return our_df
+	#Проверка деления на 0 для столбцов
+	new_parameter = new_parameter.replace((np.inf,-np.inf), (None,None))
+
+	for el in new_parameter.isnull():
+		if el == True:
+			return 'Ошибка! деление на 0'
+		else:
+			our_df = pd.concat([our_df, new_parameter], keys = ['Название', name], axis=1)
+			return our_df
 
 
 #Расчет рейтингов
@@ -22,11 +32,13 @@ def create_rate(weight, df):
 	formula = ''
 
 	#Создание столбца "Рейтинг"
-	rate = pd.Series([0 for i in range(0,len(weight))])
+	rate = pd.Series([0 for i in range(0,len(our_df.index))])
 	rate.name = 'Рейтинг'
 
 	#Расчет значений и конструирование части формулы
+
 	for key, val in weight.items():
+
 		rate += our_df[key]*val
 
 		if formula:

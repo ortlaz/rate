@@ -96,3 +96,8 @@ td.pars input[type=checkbox]:disabled{
 #rate-form{
 	margin: 20px auto;
 }
+
+.tbl-errors, .form-errors{
+	color: red;
+	font-weight: bold;
+}

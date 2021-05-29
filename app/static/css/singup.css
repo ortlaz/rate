@@ -30,3 +30,8 @@
 .fields{
 	padding: 20px 0;
 }
+
+.errors_ins, .error-message{
+	color: red;
+	font-weight: bold;
+}

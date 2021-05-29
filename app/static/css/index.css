@@ -9,8 +9,8 @@ main{
 #index-con{
 	margin: 150px 30px;
 	background-color: white;
-	height: 60vh;
-	max-height: 100vh;
+	height: 100vh;
+	max-height: 90%;
 	padding: 20px 10px;
 	font-size: 30px;
 }
@@ -27,9 +27,8 @@ section{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	margin: 15% auto;
+	margin: 10% auto;
 	flex-wrap: wrap;
-	margin: 20% auto;
 	min-width: 300px;
 }
 
@@ -37,10 +36,10 @@ section{
 	font-size: 30px;
 }
 a{
-		color: #466e9c;
-		flex-grow: 2;
-		padding: 20px 50px;
-		max-width: 200px;
-		text-align: center;
-		margin: 10px 30px;
+	color: #466e9c;
+	flex-grow: 2;
+	max-width: 200px;
+	text-align: center;
+	flex-wrap: wrap;
+
 }

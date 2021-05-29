@@ -102,11 +102,13 @@ function create_formula(){
 
 	for (var i =0;i<id;i++){
 
+
 		if (($("input#"+i+".weight")) && (parseFloat($("input#"+i+".weight").val())>=0)){
 
 			if (parseFloat($("input#"+i+".weight").val())<1){
 
 				sum += parseFloat($("input#"+i+".weight").val());
+
 				weight_list[$("td#"+i+".pars.names").text().replace(/[\t\n]+/g,'')]= $("input#"+i+".weight").val();
 
 			}else{
@@ -115,6 +117,8 @@ function create_formula(){
 
 		}
 	}
+
+	sum = Math.round(sum);
 
 	if (sum != 1){
 		$('div.tbl-errors').append('<p>Сумма значений весов должна равняться 1.</p>');

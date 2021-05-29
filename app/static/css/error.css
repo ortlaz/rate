@@ -1,0 +1,19 @@
+.container{
+	margin: 8% auto;
+	text-align: center;
+
+}
+
+a{
+	color: #466e9c;
+	flex-grow: 2;
+	max-width: 200px;
+	text-align: center;
+	flex-wrap: wrap;
+
+}
+
+p{
+	color: red;
+	font-weight: bold;
+}

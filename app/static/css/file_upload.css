@@ -73,3 +73,8 @@ form{
 	background-color: #466e9c;
 	border: none;
 }
+
+.errors{
+	color: red;
+	font-weight: bold;
+}

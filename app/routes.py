@@ -47,6 +47,7 @@ def account(page=1):
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
 
+	error = ''
 	# перенаправление авторизованного пользователя
 	if current_user.is_authenticated:
 		return redirect(url_for('main'))
@@ -57,8 +58,9 @@ def signin():
 		user = User.query.filter_by(email=form.email.data).first()
 
 		if user is None or not user.check_pass(form.password.data):
-			flash('Неправильное имя пользователя или пароль')
-			return redirect(url_for('signin'))
+			error = 'Неправильное имя пользователя или пароль'
+			return render_template('signin.html', form=form, error_mes = error)
+
 
 		# перенаправление уже зарегестрированного пользователя на главную страницу
 		login_user(user)
@@ -67,7 +69,7 @@ def signin():
 			neccessary_page = url_for('main')
 		return redirect(neccessary_page)
 
-	return render_template('signin.html', form=form)
+	return render_template('signin.html', form=form, error_mes = error)
 
 # Регистрация
 @app.route('/signup', methods=['GET', 'POST']) #добавить подтверждение по почте
@@ -80,7 +82,7 @@ def signup():
 		user.create_pass_hash(form.password.data)
 		db.session.add(user)
 		db.session.commit()
-		flash('Пользователь успешно зарегестрирован')
+		# flash('Пользователь успешно зарегестрирован')
 		return redirect(url_for('signin'))
 	return render_template('signup.html', form=form)
 
@@ -122,8 +124,7 @@ def  main(page=1):
 @login_required
 def save_file():
 
-	# print(session.get('id_edit'))
-	# print(session.get('id_build'))
+	error_empty_file = ''
 
 	if request.method == 'POST':
 		dl_file = request.files.get('file')
@@ -142,13 +143,16 @@ def save_file():
 			data = sheet.values
 
 			if len(list(data)) == 0:
-				flash('Ошибка! Пустой файл.')
+				error_empty_file = 'Ошибка! Пустой файл.'
 				delete_file(f_name)
-				return render_template('file_upload.html')
+				return render_template('file_upload.html',error=error_empty_file)
 
 			# замена знаков < и >
 			big_tbl = data_inp(f_path)
-		
+
+			#замена пустых полей нулями
+			big_tbl = big_tbl.replace(to_replace = np.nan, value=0) 
+
 			parameters = []
 
 			for item in big_tbl.columns:
@@ -161,9 +165,9 @@ def save_file():
 
 					parameters.append(item)
 				else:
-					flash('Ошибка! Пустой файл.')
+					error_empty_file='Ошибка! Пустой файл.'
 					delete_file(f_name)
-					return render_template('file_upload.html')
+					return render_template('file_upload.html',error=error_empty_file)
 
 			big_tbl.columns = parameters
 
@@ -213,8 +217,7 @@ def dowload_file(filename):
 @login_required
 def chooseparams():
 
-	# print(session.get('id_edit'))
-	# print(session.get('id_build'))
+	error_no_param = ''
 	
 	# Если редактируем готовую формулу 
 	items = []
@@ -222,9 +225,8 @@ def chooseparams():
 		f_items = []
 		rate = db.session.query(Rate_formula).get(session.get('id_edit'))
 		for el in rate.params:
-			if el.formula:
-				items.append(el.par_name)
-				f_items.append(el.formula)
+			items.append(el.par_name)
+			f_items.append(el.formula)
 
 
 	if current_user:
@@ -244,17 +246,23 @@ def chooseparams():
 	parameters = parameters[1:] #выводятся пользователю для выбора
 
 	if request.method == "POST":
+
 		data = request.json #type - list
 
 		if items:
-			for i in range(1,len(data)):
+			for i in range(0, len(data)): #было от 1
 				# если параметр уже создан, получаем инф-ю о нём из БД
-				if data[i]['name'] in items:
-					par = Params(formula = f_items[items.index(data[i]['name'])], par_name = data[i]['name'])
-					db.session.add(par)
-					db.session.commit()
-					data.remove(data[i])
 
+				if data[i]['name'] in items:
+					data[i]['formula'] = f_items[items.index(data[i]['name'])]
+
+		for i in range(0, len(data)):
+			if data[i]['formula'] =='':
+				if data[i]['name'] not in parameters:
+					print(data[i])
+					error_no_param = 'Ошибка! Нет параметра\n'+ data[i]['name']+'. Загрузите новый файл или выберите другие параметры'
+					# return json.dumps({'error':True}),404,{'ContentType':'application/json'}
+					return render_template('error.html', error=error_no_param)	
 		#добавление в БД 1го параметра
 		par = Params(formula = data[0]['formula'], par_name = data[0]['name'])
 		db.session.add(par)
@@ -278,7 +286,7 @@ def chooseparams():
 	if items:
 		return render_template('params.html', table = parameters, addition=items, num=len(items))
 	else:
-		return render_template('params.html', table = parameters)
+		return render_template('params.html', table = parameters, error=error_no_param)
 
 # Присвоение весов показателям и создание формулы
 @app.route('/finish', methods=['GET', 'POST'])
@@ -308,6 +316,7 @@ def finish():
 
 	# добавление новой формулы в БД
 	if request.method == "POST":
+
 		data = request.json
 		forml = Rate_formula(fl_name = data['rate_name'], author_id = current_user.get_id(), formula=data['rate_formula'])
 		db.session.add(forml)
@@ -358,6 +367,7 @@ def finish():
 @login_required
 def make_rate():
 
+	error = ''
 	if current_user:
 		user = db.session.query(User).get(current_user.get_id())
 
@@ -388,27 +398,31 @@ def make_rate():
 	weight_list = {}
 
 	#создание пользовательского параметра
+
 	for item in fl.params:
 		weight_list[item.par_name]=item.weight
 
 		if item.formula:
+
 			our_df = create_new_param(item.formula, big_tbl, parameters, item.par_name, our_df)
+
+			if type(our_df) == str:
+				error =our_df
+				return render_template('error.html', error=error)
 		else:
 			inp_list.append(item.par_name)
 
 	for i in range(0, len(inp_list)):
 		our_df = pd.concat([our_df,big_tbl[inp_list[i]]], axis = 1)
 	
-	#максимизация/минимизация параметров
+		#максимизация/минимизация параметров
 	for item in fl.params:
-
 		if item.flag_max == 1:
 			our_df = maximize(our_df, item.par_name)
-
 		elif item.flag_min == 1:
 			our_df = minimize(our_df, item.par_name)
 
-	# расчёт рейтинга
+		# расчёт рейтинга
 	example = create_rate(weight_list, our_df)
 	our_df = example[0]
 	our_df = our_df.sort_values(by='Рейтинг', ascending=False)
@@ -416,7 +430,7 @@ def make_rate():
 	our_df = our_df.round(3)
 	# print(our_df, '\n' ,example[1])
 
-	#export to xlsx
+		#export to xlsx
 	if current_user:
 		f_name = 'example'+'_'+current_user.get_id()+'_'+datetime.now().strftime("%Y-%m-%d_%H-%M-%S") +'.xlsx'
 	
@@ -425,7 +439,8 @@ def make_rate():
 	our_df.to_excel(writer,'Sheet1')
 	writer.save()
 
-	return render_template('rating.html', table = our_df, formula=example[1], file=f_name)
+	return render_template('rating.html', table = our_df,formula=example[1], file=f_name)
+
 
 # Изменение формулы
 @app.route('/edit', methods=['GET', 'POST'])
@@ -460,3 +475,9 @@ def del_rate():
 		db.session.delete(post)
 		db.session.commit()
 		return json.dumps({'success':True}),200,{'ContentType':'application/json'}
+
+
+@app.route('/error')
+@login_required
+def error():
+	return render_template('error.html')

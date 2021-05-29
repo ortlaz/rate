@@ -10,6 +10,9 @@
 	{{ form.hidden_tag() }}
 	<h1>Авторизация</h1>
 	<div class="fields">
+		<div class="errors_ins">
+			{{error_mes}}
+		</div>
 		<p>
 			{{ form.email.label }}
 			{{ form.email(class = 'text_field', oninput="if (value.length>120) value = value.slice(0,120)") }}

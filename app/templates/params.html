@@ -17,6 +17,7 @@
 		<input type="text" id="search" onkeyup="search()" placeholder="Поиск...">
 		</div>
 		<div class="error-container">
+			{{error}}
 		</div>
 		<div class="param-choose">
 			<ul class="items-list" id="the-list">
@@ -45,6 +46,7 @@
 			<div class="param-formula">
 				<div class="formula">
 					<p><label>Формула параметра</label><input id="parameter" type="text" name="formula" oninput="if (value.length>1024) value = value.slice(0,1024)"></p>
+					<div id="formula-error"></div>
 					<div class="rules">
 						 Правила построения фомулы:
 						<ol class="rules-list">
@@ -80,8 +82,8 @@
 <!-- 	<p><a href="#">Продолжить</a></p> -->
 </div>
 </main>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="http://dir.by/example_lib/jquery_ui/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-<script src="http://dir.by/example_lib/touch-punch/jquery.ui.touch-punch.js"></script>
+<script src="{{ url_for('static', filename = 'scr/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='scr/jquery-ui.min.js') }}"></script>
+<script src="{{  url_for('static', filename='scr/jquery.ui.touch-punch.js')}}"></script>
 <script src="{{ url_for('static', filename='scr/get_params.js') }}"></script>
 {% endblock %}

@@ -24,7 +24,7 @@ $('#add-from-list').on('click', function(){
 		}
 
 		if (flag == true) {
-			$("div.error-container").html("Error");
+			$("div.error-container").html("Показатель уже есть в списке!");
 		}else{
 			$("div.error-container").html("");
 			$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
@@ -54,7 +54,7 @@ function addParameter(array){
 	}
 
 	if (flag == true) {
-		$("div.error-field").html("Error");
+		$("div.error-field").html("Показатель уже есть в списке!");
 	}else{
 
 		dict["name"] = name;
@@ -68,9 +68,64 @@ function addParameter(array){
 
 }
 
+function cnt(line){
+	var list = line.split('');
+	var stack = [];
+
+	for (let i=0; i<list.length;i++){
+
+		// console.log(list[i]);
+
+		if ('<>()'.indexOf(list[i])!=-1){
+
+			if(list[i].startsWith('<') || list[i].startsWith('(')){
+				stack.push(list[i]);
+			}else{
+				if(stack.length==0){
+					return false;
+				}
+				const symb = stack.pop();
+				if ((symb =='<' && list[i] != '>') || (symb=='(' && list[i] != ')')){
+					return false;
+				}
+			}
+		}
+		
+	}
+	return stack.length == 0;
+}
+
+function monkey(){
+	var formula = $("#parameter").val();
+
+	if (!cnt(formula)){
+		$("#formula-error").html('Неправильно задана формула, кол-во <> и () должно быть чётным!');
+		return(false);
+
+	}else{
+		
+		if (('+-/^*)>'.indexOf(formula[0])) != -1 
+			|| formula[0].match(/[A-Za-z]/g) 
+			|| ('+-/^*(<'.indexOf(formula[formula.length-1])) != -1 
+			|| formula[formula.length-1].match(/[A-Za-z]/g) 
+			|| formula.match(/(>|\))(?=[\w])+/g) 
+			|| formula.match(/[\w](?=(<|\())+/g) 
+			|| formula.match(/(>\(|\)<|\)\(|><)/g)){
+				$("#formula-error").html('Неправильно задана формула');
+				return(false);
+		} else{
+			$("#formula-error").html('');
+			return true;
+		}
+	}
+}
+
 $("#add-from-user").on('click', function(){
+	if (monkey()){
+		addParameter(paramsObj);
+	}
 	// var paramsObj = [];
-	addParameter(paramsObj);
+
 
 });
 
@@ -96,6 +151,8 @@ function setArray(array){
 	});
 }
 
+
+
 $("#continue").on('click', function(){
 	// var paramsObj = [];
 	setArray(paramsObj);
@@ -107,6 +164,9 @@ $("#continue").on('click', function(){
 			success: function(data){
 				window.location.replace('/finish');
 			},
+			// error: function(data){
+			// 	window.location.replace('/error');
+			// },
 			data: JSON.stringify(paramsObj),
 			dataType: 'json',
 			headers: {
@@ -121,7 +181,6 @@ $("#continue").on('click', function(){
 
 function del(elem){
 
-	console.log(elem);
 		paramsObj.forEach(function(el,j,mas){
 
 			if 	($("#"+elem.id+".par").text().replace(/[\t\n]+/g,'')==el['name']){

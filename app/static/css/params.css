@@ -128,3 +128,8 @@
 #rule{
     margin: 10px auto;
 }
+
+#formula-error,.error-field, .error-container{
+    color: red;
+    font-weight: bold;
+}
