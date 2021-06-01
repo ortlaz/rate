@@ -38,32 +38,37 @@ var paramsObj = [];
 
 function addParameter(array){
 	var formula = $("#parameter").val();
-	var name = $("#param-name").val();
-	var dict = {};
+	if ($("input#param-name").val() != ''){
+		var name = $("#param-name").val();
+		var dict = {};
 
-	var flag = false;
-	
-	var i = 1;
-	
-	if ($("li").is(".par")){
-		i = parseInt($("li.par").filter(":last").attr("id"),10)+1;
-	}
+		var flag = false;
+		
+		var i = 1;
+		
+		if ($("li").is(".par")){
+			i = parseInt($("li.par").filter(":last").attr("id"),10)+1;
+		}
 
-	if (i>1){
-		$("li.par").each(function(){if ($(this).text().replace('Удалить','') == name){flag=true;}});
-	}
+		if (i>1){
+			$("li.par").each(function(){if ($(this).text().replace('Удалить','') == name){flag=true;}});
+		}
 
-	if (flag == true) {
-		$("div.error-field").html("Показатель уже есть в списке!");
+		if (flag == true) {
+			$("div.error-field").html("Показатель уже есть в списке!");
+		}else{
+
+			dict["name"] = name;
+			dict["formula"] = formula;
+			array.push(dict);
+
+			$("div.error-field").html("");
+			$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
+			$("#"+i+".par").html(name+'<button onclick="del(this)" class = "del" id="'+i+'">Удалить</button>');
+		}
 	}else{
+		$('div.error-field').append('<p>Введите название для рейтинга.</p>');
 
-		dict["name"] = name;
-		dict["formula"] = formula;
-		array.push(dict);
-
-		$("div.error-field").html("");
-		$("ul.parameters").append('<li class="par" id="'+i+'"></li>');
-		$("#"+i+".par").html(name+'<button onclick="del(this)" class = "del" id="'+i+'">Удалить</button>');
 	}
 
 }
@@ -164,9 +169,11 @@ $("#continue").on('click', function(){
 			success: function(data){
 				window.location.replace('/finish');
 			},
-			// error: function(data){
-			// 	window.location.replace('/error');
-			// },
+			error: function(data){
+				// window.location.replace('/chooseparams');		
+				$('div.error-field').append('<p>Ошибка! В файле отсутствуют выбранные показатели.Загрузите новый файл или выберите другие показатели</p>');
+				paramsObj = []
+			},
 			data: JSON.stringify(paramsObj),
 			dataType: 'json',
 			headers: {

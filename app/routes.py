@@ -259,10 +259,9 @@ def chooseparams():
 		for i in range(0, len(data)):
 			if data[i]['formula'] =='':
 				if data[i]['name'] not in parameters:
-					print(data[i])
 					error_no_param = 'Ошибка! Нет параметра\n'+ data[i]['name']+'. Загрузите новый файл или выберите другие параметры'
-					# return json.dumps({'error':True}),404,{'ContentType':'application/json'}
-					return render_template('error.html', error=error_no_param)	
+					return json.dumps({'error':True}),404,{'ContentType':'application/json'}
+					# return render_template('error.html', error=error_no_param)	
 		#добавление в БД 1го параметра
 		par = Params(formula = data[0]['formula'], par_name = data[0]['name'])
 		db.session.add(par)
@@ -396,6 +395,13 @@ def make_rate():
 	our_df = big_tbl['Название']
 	inp_list = []
 	weight_list = {}
+
+	#проверка
+	if session.get('id_build') != -1:
+		for param in fl.params:
+			if  param.formula == '':
+				if param.par_name not in parameters:
+					return render_template('error.html', error='Ошибка! В файле отсутствуют нужные показатели')
 
 	#создание пользовательского параметра
 

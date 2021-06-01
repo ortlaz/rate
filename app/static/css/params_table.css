@@ -101,3 +101,9 @@ td.pars input[type=checkbox]:disabled{
 	color: red;
 	font-weight: bold;
 }
+
+#build[disabled=disabled], #save[disabled=disabled]{
+	pointer-events: none;
+	background-color: #b0c4d4;
+	color:  lightgrey;
+}
