@@ -9,7 +9,7 @@ main{
 #index-con{
 	margin: 150px 30px;
 	background-color: white;
-	height: 100vh;
+	height: 50h;
 	max-height: 90%;
 	padding: 20px 10px;
 	font-size: 30px;
@@ -19,9 +19,9 @@ main{
 	margin: 0 auto;
 }
 
-section{
-	height: 100vh;
-}
+/*section{
+	height: 50vh;
+}*/
 
 .buttons{
 	display: flex;
