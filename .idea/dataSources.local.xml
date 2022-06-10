@@ -14,7 +14,9 @@
             <node kind="database" qname="@">
               <node kind="schema" qname="@" />
             </node>
-            <node kind="database" qname="ratings">
+            <node kind="database">
+              <name qname="ratings" />
+              <name qname="rat" />
               <node kind="schema" qname="public" />
             </node>
           </node>
