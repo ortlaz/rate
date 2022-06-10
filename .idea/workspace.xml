@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b774305-c2f6-487e-a747-1a2f1239742a" name="Changes" comment="работа по развертыванию" />
+    <list default="true" id="4b774305-c2f6-487e-a747-1a2f1239742a" name="Changes" comment="работа по развертыванию">
+      <change afterPath="$PROJECT_DIR$/app/uploads/README" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,8 +36,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "/Users/anastasiausakova/Documents/Projects/rate",
     "node.js.detected.package.eslint": "true",
@@ -118,7 +122,7 @@
       <option name="presentableId" value="Default" />
       <updated>1654871488575</updated>
       <workItem from="1654871489685" duration="2592000" />
-      <workItem from="1654874131591" duration="314000" />
+      <workItem from="1654874131591" duration="553000" />
     </task>
     <task id="LOCAL-00001" summary="работа по развертыванию">
       <created>1654874326323</created>
@@ -134,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654874440312</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="работа по развертыванию">
+      <created>1654874549213</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1654874549213</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,7 +178,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/rate$rate.coverage" NAME="rate Coverage Results" MODIFIED="1654873933212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/rate$rate.coverage" NAME="rate Coverage Results" MODIFIED="1654874568082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/rate$config.coverage" NAME="config Coverage Results" MODIFIED="1654873942076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
