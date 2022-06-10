@@ -15,7 +15,7 @@ class Tests(unittest.TestCase):
 	def setUp(self):
 		app.app.config['TESTING'] = True
 		app.app.config['CRSF_ENABLED'] = False
-		app.app.config ['SQLALCHEMY_DATABASE_URI'] = "postgresql://root:laibach@localhost:5432/ratings_tests"
+		app.app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://root:laibach@localhost:5432/ratings_tests"
 		self.app = app.app.test_client()
 		db.create_all()
 
