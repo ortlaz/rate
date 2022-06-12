@@ -25,13 +25,11 @@ numpy==1.22.4
 openpyxl==3.0.10
 pandas==1.4.2
 postgres==4.0
-psycopg2==2.9.3
 psycopg2-binary==2.9.3
 psycopg2-pool==1.1
 python-dateutil==2.8.2
 pytz==2022.1
 pytz-deprecation-shim==0.1.0.post0
-six @ file:///AppleInternal/BuildRoot/Library/Caches/com.apple.xbs/Sources/python3/python3-110/six-1.15.0-py2.py3-none-any.whl
 SQLAlchemy==1.4.7
 tzdata==2022.1
 tzlocal==4.2
