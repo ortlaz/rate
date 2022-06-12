@@ -1,15 +1,12 @@
-import os
 import unittest
+
 import pandas as pd
-from openpyxl import load_workbook
 
-from app import app, db
-from app.models import User
 import app.routes
+from app import app, db
 from app.main_logic import data_inp, create_new_param, create_rate
-from app.maxmin import maximize, minimize
-
-from flask import url_for
+from app.maxmin import maximize
+from app.models import User
 
 
 class Tests(unittest.TestCase):
