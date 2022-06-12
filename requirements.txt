@@ -20,7 +20,7 @@ itsdangerous==2.1.2
 Jinja2==3.0.0
 Mako==1.1.4
 MarkupSafe==2.0.0
-numpy==1.22.4
+numpy==1.14.3
 openpyxl==3.0.10
 pandas==1.4.2
 postgres==4.0
