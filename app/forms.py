@@ -4,26 +4,41 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationE
 from app.models import User
 
 
-#Форма регистрации
+# Форма регистрации
 
-class SignUpForm(FlaskForm):	
-	name = StringField('ФИО', validators=[DataRequired(), Length(max=200)])
-	email = StringField('Электронная почта', validators=[DataRequired(), Email()])
-	password = PasswordField('Пароль', validators=[DataRequired(), Length(min=8, message='Пароль не должен быть менее %(min)d символов.')])
-	password_conf = PasswordField('Подтверждение пароля', validators=[DataRequired(message='Обязательно для заполнения.'),EqualTo('password', message='Пароли не совпадают.')])
-	submit = SubmitField('Зарегистрироваться')
 
-	#Проверка существования e-mail
+class SignUpForm(FlaskForm):
+    name = StringField("ФИО", validators=[DataRequired(), Length(max=200)])
+    email = StringField("Электронная почта", validators=[DataRequired(), Email()])
+    password = PasswordField(
+        "Пароль",
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Пароль не должен быть менее %(min)d символов."),
+        ],
+    )
+    password_conf = PasswordField(
+        "Подтверждение пароля",
+        validators=[
+            DataRequired(message="Обязательно для заполнения."),
+            EqualTo("password", message="Пароли не совпадают."),
+        ],
+    )
+    submit = SubmitField("Зарегистрироваться")
 
-	def validate_email(self, email):
-		user = User.query.filter_by(email=email.data).first()
-		if user is not None:
-			raise ValidationError('Адрес электронной почты уже занят.')
+    # Проверка существования e-mail
 
-#Форма Авторизации
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError("Адрес электронной почты уже занят.")
+
+
+# Форма Авторизации
+
 
 class SignInForm(FlaskForm):
-    email = StringField('Электронная почта', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
+    email = StringField("Электронная почта", validators=[DataRequired()])
+    password = PasswordField("Пароль", validators=[DataRequired()])
     # remember_me = BooleanField('Запомнить меня')
-    submit = SubmitField('Войти')
+    submit = SubmitField("Войти")
