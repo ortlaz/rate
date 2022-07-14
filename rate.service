@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve RateProject
+After=network.target
+
+[Service]
+#WorkingDirectory=/
+Environment="PATH=/rating/bin"
+Type=simple
+RestartSec=3
+ExecStart=/usr/local/bin/rate/rating/bin/gunicorn --workers 3 --bind unix:rate.sock -m 777 ratings:app
+
+[Install]
+WantedBy=multi-user.target

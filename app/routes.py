@@ -1,24 +1,24 @@
+import json
+import os
+from datetime import datetime
+
 from flask import (
     render_template,
-    flash,
     redirect,
     url_for,
     request,
     session,
     send_from_directory,
 )
-from app import app, db
-from app.forms import SignUpForm, SignInForm
-from app.models import User, Params, Rate_formula
 from flask_login import current_user, login_user, logout_user, login_required
+from sqlalchemy import func
 from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
-import os, json
-from datetime import datetime
+
+from app import app, db
+from app.forms import SignUpForm, SignInForm
 from app.main_logic import *
-from sqlalchemy import func
-from tzlocal import get_localzone
-import xlsxwriter
+from app.models import User, Params, Rate_formula
 
 
 # Удаление файла из папки
